@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// Read, compose, send, and permanently delete all your email from Gmail
     Gmai,
@@ -1158,7 +1158,7 @@ pub struct Message {
     pub payload: Option<MessagePart>,
     /// The entire email message in an RFC 2822 formatted and base64url encoded string. Returned in `messages.get` and `drafts.get` responses when the `format=RAW` parameter is supplied.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub raw: Option<Vec<u8>>,
     /// Estimated size in bytes of the message.
     #[serde(rename="sizeEstimate")]
@@ -1226,7 +1226,7 @@ pub struct MessagePartBody {
     pub attachment_id: Option<String>,
     /// The body data of a MIME message part as a base64url encoded string. May be empty for MIME container types that have no message body or when the body data is sent as a separate attachment. An attachment ID is present if the body data is contained in a separate attachment.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub data: Option<Vec<u8>>,
     /// Number of bytes for the message part data (encoding notwithstanding).
     
@@ -1466,7 +1466,7 @@ pub struct SmimeInfo {
     pub pem: Option<String>,
     /// PKCS#12 format containing a single private/public key pair and certificate chain. This format is only accepted from client for creating a new SmimeInfo and is never returned, because the private key is not intended to be exported. PKCS#12 may be encrypted, in which case encryptedKeyPassword should be set appropriately.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub pkcs12: Option<Vec<u8>>,
 }
 

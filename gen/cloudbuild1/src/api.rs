@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.
     CloudPlatform,
@@ -1484,7 +1484,7 @@ pub struct Hash {
     pub type_: Option<String>,
     /// The hash value.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub value: Option<Vec<u8>>,
 }
 
@@ -1512,7 +1512,7 @@ pub struct HttpBody {
     pub content_type: Option<String>,
     /// The HTTP request/response body as raw binary.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub data: Option<Vec<u8>>,
     /// Application specific response metadata. Must be set in the first response for streaming APIs.
     
@@ -1532,7 +1532,7 @@ pub struct InlineSecret {
     /// Map of environment variable name to its encrypted value. Secret environment variables must be unique across all of a build's secrets, and must be used by at least one build step. Values can be at most 64 KB in size. There can be at most 100 secret values across all of a build's secrets.
     #[serde(rename="envMap")]
     
-    #[serde_as(as = "Option<HashMap<_, ::client::serde::urlsafe_base64::Wrapper>>")]
+    #[serde_as(as = "Option<HashMap<_, ::client::serde::searde_base64::Wrapper>>")]
     pub env_map: Option<HashMap<String, Vec<u8>>>,
     /// Resource name of Cloud KMS crypto key to decrypt the encrypted value. In format: projects/*/locations/*/keyRings/*/cryptoKeys/*
     #[serde(rename="kmsKeyName")]
@@ -2116,7 +2116,7 @@ pub struct Results {
     /// List of build step outputs, produced by builder images, in the order corresponding to build step indices. [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders) can produce this output by writing to `$BUILDER_OUTPUT/output`. Only the first 4KB of data is stored.
     #[serde(rename="buildStepOutputs")]
     
-    #[serde_as(as = "Option<Vec<::client::serde::urlsafe_base64::Wrapper>>")]
+    #[serde_as(as = "Option<Vec<::client::serde::searde_base64::Wrapper>>")]
     pub build_step_outputs: Option<Vec<Vec<u8>>>,
     /// Container images that were built as a part of the build.
     
@@ -2207,7 +2207,7 @@ pub struct Secret {
     /// Map of environment variable name to its encrypted value. Secret environment variables must be unique across all of a build's secrets, and must be used by at least one build step. Values can be at most 64 KB in size. There can be at most 100 secret values across all of a build's secrets.
     #[serde(rename="secretEnv")]
     
-    #[serde_as(as = "Option<HashMap<_, ::client::serde::urlsafe_base64::Wrapper>>")]
+    #[serde_as(as = "Option<HashMap<_, ::client::serde::searde_base64::Wrapper>>")]
     pub secret_env: Option<HashMap<String, Vec<u8>>>,
 }
 

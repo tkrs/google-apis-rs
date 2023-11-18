@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.
     CloudPlatform,
@@ -1166,7 +1166,7 @@ pub struct GoogleCloudDatalabelingV1beta1FeedbackMessage {
     pub create_time: Option<client::chrono::DateTime<client::chrono::offset::Utc>>,
     /// The image storing this feedback if the feedback is an image representing operator's comments.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub image: Option<Vec<u8>>,
     /// Name of the feedback message in a feedback thread. Format: 'project/{project_id}/datasets/{dataset_id}/annotatedDatasets/{annotated_dataset_id}/feedbackThreads/{feedback_thread_id}/feedbackMessage/{feedback_message_id}'
     
@@ -1228,7 +1228,7 @@ pub struct GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata {
     pub status: Option<String>,
     /// An image thumbnail of this thread.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub thumbnail: Option<Vec<u8>>,
 }
 
@@ -1413,7 +1413,7 @@ pub struct GoogleCloudDatalabelingV1beta1ImagePayload {
     /// A byte string of a thumbnail image.
     #[serde(rename="imageThumbnail")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub image_thumbnail: Option<Vec<u8>>,
     /// Image uri from the user bucket.
     #[serde(rename="imageUri")]
@@ -1469,7 +1469,7 @@ pub struct GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation {
     /// A byte string of a full image's color map.
     #[serde(rename="imageBytes")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub image_bytes: Option<Vec<u8>>,
     /// Image format.
     #[serde(rename="mimeType")]
@@ -2659,7 +2659,7 @@ impl client::Part for GoogleCloudDatalabelingV1beta1VideoPayload {}
 pub struct GoogleCloudDatalabelingV1beta1VideoThumbnail {
     /// A byte string of the video frame.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub thumbnail: Option<Vec<u8>>,
     /// Time offset relative to the beginning of the video, corresponding to the video frame where the thumbnail has been extracted from.
     #[serde(rename="timeOffset")]

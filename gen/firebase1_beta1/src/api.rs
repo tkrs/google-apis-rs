@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.
     CloudPlatform,
@@ -375,7 +375,7 @@ pub struct AndroidAppConfig {
     /// The contents of the JSON configuration file.
     #[serde(rename="configFileContents")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub config_file_contents: Option<Vec<u8>>,
     /// The filename that the configuration artifact for the `AndroidApp` is typically saved as. For example: `google-services.json`
     #[serde(rename="configFilename")]
@@ -602,7 +602,7 @@ pub struct IosAppConfig {
     /// The content of the XML configuration file.
     #[serde(rename="configFileContents")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub config_file_contents: Option<Vec<u8>>,
     /// The filename that the configuration artifact for the `IosApp` is typically saved as. For example: `GoogleService-Info.plist`
     #[serde(rename="configFilename")]

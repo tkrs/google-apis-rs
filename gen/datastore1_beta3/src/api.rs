@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.
     CloudPlatform,
@@ -331,7 +331,7 @@ impl client::RequestValue for BeginTransactionRequest {}
 pub struct BeginTransactionResponse {
     /// The transaction identifier (always present).
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub transaction: Option<Vec<u8>>,
 }
 
@@ -357,7 +357,7 @@ pub struct CommitRequest {
     pub mutations: Option<Vec<Mutation>>,
     /// The identifier of the transaction associated with the commit. A transaction identifier is returned by a call to Datastore.BeginTransaction.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub transaction: Option<Vec<u8>>,
 }
 
@@ -458,7 +458,7 @@ pub struct EntityResult {
     pub create_time: Option<client::chrono::DateTime<client::chrono::offset::Utc>>,
     /// A cursor that points to the position after the result entity. Set only when the `EntityResult` is part of a `QueryResultBatch` message.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub cursor: Option<Vec<u8>>,
     /// The resulting entity.
     
@@ -533,7 +533,7 @@ impl client::Part for GqlQuery {}
 pub struct GqlQueryParameter {
     /// A query cursor. Query cursors are returned in query result batches.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub cursor: Option<Vec<u8>>,
     /// A value parameter.
     
@@ -836,7 +836,7 @@ pub struct Query {
     /// An ending point for the query results. Query cursors are returned in query result batches and [can only be used to limit the same query](https://cloud.google.com/datastore/docs/concepts/queries#cursors_limits_and_offsets).
     #[serde(rename="endCursor")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub end_cursor: Option<Vec<u8>>,
     /// The filter to apply.
     
@@ -859,7 +859,7 @@ pub struct Query {
     /// A starting point for the query results. Query cursors are returned in query result batches and [can only be used to continue the same query](https://cloud.google.com/datastore/docs/concepts/queries#cursors_limits_and_offsets).
     #[serde(rename="startCursor")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub start_cursor: Option<Vec<u8>>,
 }
 
@@ -876,7 +876,7 @@ pub struct QueryResultBatch {
     /// A cursor that points to the position after the last result in the batch.
     #[serde(rename="endCursor")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub end_cursor: Option<Vec<u8>>,
     /// The result type for every entity in `entity_results`.
     #[serde(rename="entityResultType")]
@@ -897,7 +897,7 @@ pub struct QueryResultBatch {
     /// A cursor that points to the position after the last skipped result. Will be set when `skipped_results` != 0.
     #[serde(rename="skippedCursor")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub skipped_cursor: Option<Vec<u8>>,
     /// The number of results skipped, typically because of an offset.
     #[serde(rename="skippedResults")]
@@ -946,7 +946,7 @@ pub struct ReadOptions {
     pub read_time: Option<client::chrono::DateTime<client::chrono::offset::Utc>>,
     /// The identifier of the transaction in which to read. A transaction identifier is returned by a call to Datastore.BeginTransaction.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub transaction: Option<Vec<u8>>,
 }
 
@@ -963,7 +963,7 @@ pub struct ReadWrite {
     /// The transaction identifier of the transaction being retried.
     #[serde(rename="previousTransaction")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub previous_transaction: Option<Vec<u8>>,
 }
 
@@ -1021,7 +1021,7 @@ impl client::ResponseResult for ReserveIdsResponse {}
 pub struct RollbackRequest {
     /// Required. The transaction identifier, returned by a call to Datastore.BeginTransaction.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub transaction: Option<Vec<u8>>,
 }
 
@@ -1184,7 +1184,7 @@ pub struct Value {
     /// A blob value. May have at most 1,000,000 bytes. When `exclude_from_indexes` is false, may have at most 1500 bytes. In JSON requests, must be base64-encoded.
     #[serde(rename="blobValue")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub blob_value: Option<Vec<u8>>,
     /// A boolean value.
     #[serde(rename="booleanValue")]

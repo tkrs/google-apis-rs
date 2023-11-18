@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.
     CloudPlatform,
@@ -793,7 +793,7 @@ pub struct Policy {
     pub bindings: Option<Vec<Binding>>,
     /// `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub etag: Option<Vec<u8>>,
     /// Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies).
     
@@ -978,7 +978,7 @@ pub struct Role {
     pub description: Option<String>,
     /// Used to perform a consistent read-modify-write.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub etag: Option<Vec<u8>>,
     /// The names of the permissions this role grants when bound in an IAM policy.
     #[serde(rename="includedPermissions")]
@@ -1045,7 +1045,7 @@ pub struct ServiceAccount {
     pub email: Option<String>,
     /// Deprecated. Do not use.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub etag: Option<Vec<u8>>,
     /// The resource name of the service account. Use one of the following formats: * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you can use the `-` wildcard character instead of the project ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-` wildcard character, because it can cause response messages to contain misleading error codes. For example, if you try to access the service account `projects/-/serviceAccounts/fake@example.com`, which does not exist, the response contains an HTTP `403 Forbidden` error instead of a `404 Not Found` error.
     
@@ -1102,7 +1102,7 @@ pub struct ServiceAccountKey {
     /// The private key data. Only provided in `CreateServiceAccountKey` responses. Make sure to keep the private key data secure because it allows for the assertion of the service account identity. When base64 decoded, the private key data can be used to authenticate with Google API client libraries and with gcloud auth activate-service-account.
     #[serde(rename="privateKeyData")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub private_key_data: Option<Vec<u8>>,
     /// The output format for the private key. Only provided in `CreateServiceAccountKey` responses, not in `GetServiceAccountKey` or `ListServiceAccountKey` responses. Google never exposes system-managed private keys, and never retains user-managed private keys.
     #[serde(rename="privateKeyType")]
@@ -1111,7 +1111,7 @@ pub struct ServiceAccountKey {
     /// The public key data. Only provided in `GetServiceAccountKey` responses.
     #[serde(rename="publicKeyData")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub public_key_data: Option<Vec<u8>>,
     /// The key can be used after this timestamp.
     #[serde(rename="validAfterTime")]
@@ -1163,7 +1163,7 @@ pub struct SignBlobRequest {
     /// Required. Deprecated. [Migrate to Service Account Credentials API](https://cloud.google.com/iam/help/credentials/migrate-api). The bytes to sign.
     #[serde(rename="bytesToSign")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub bytes_to_sign: Option<Vec<u8>>,
 }
 
@@ -1187,7 +1187,7 @@ pub struct SignBlobResponse {
     pub key_id: Option<String>,
     /// Deprecated. [Migrate to Service Account Credentials API](https://cloud.google.com/iam/help/credentials/migrate-api). The signed blob.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub signature: Option<Vec<u8>>,
 }
 
@@ -1310,7 +1310,7 @@ impl client::ResponseResult for TestIamPermissionsResponse {}
 pub struct UndeleteRoleRequest {
     /// Used to perform a consistent read-modify-write.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub etag: Option<Vec<u8>>,
 }
 
@@ -1396,7 +1396,7 @@ pub struct UploadServiceAccountKeyRequest {
     /// The public key to associate with the service account. Must be an RSA public key that is wrapped in an X.509 v3 certificate. Include the first line, `-----BEGIN CERTIFICATE-----`, and the last line, `-----END CERTIFICATE-----`.
     #[serde(rename="publicKeyData")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub public_key_data: Option<Vec<u8>>,
 }
 
@@ -4773,7 +4773,7 @@ where
         let mut params = Params::with_capacity(4 + self._additional_params.len());
         params.push("name", self._name);
         if let Some(value) = self._etag.as_ref() {
-            params.push("etag", ::client::serde::urlsafe_base64::to_string(&value));
+            params.push("etag", ::client::serde::serde_base64::to_string(&value));
         }
 
         params.extend(self._additional_params.iter());
@@ -11010,7 +11010,7 @@ where
         let mut params = Params::with_capacity(4 + self._additional_params.len());
         params.push("name", self._name);
         if let Some(value) = self._etag.as_ref() {
-            params.push("etag", ::client::serde::urlsafe_base64::to_string(&value));
+            params.push("etag", ::client::serde::serde_base64::to_string(&value));
         }
 
         params.extend(self._additional_params.iter());

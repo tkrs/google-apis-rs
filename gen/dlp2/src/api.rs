@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.
     CloudPlatform,
@@ -495,7 +495,7 @@ impl client::Part for GooglePrivacyDlpV2BucketingConfig {}
 pub struct GooglePrivacyDlpV2ByteContentItem {
     /// Content data to inspect or redact.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub data: Option<Vec<u8>>,
     /// The type of data stored in the bytes string. Default will be TEXT_UTF8.
     #[serde(rename="type")]
@@ -2913,7 +2913,7 @@ pub struct GooglePrivacyDlpV2KmsWrappedCryptoKey {
     /// Required. The wrapped data crypto key.
     #[serde(rename="wrappedKey")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub wrapped_key: Option<Vec<u8>>,
 }
 
@@ -3838,7 +3838,7 @@ pub struct GooglePrivacyDlpV2RedactImageResponse {
     /// The redacted image. The type will be the same as the original image.
     #[serde(rename="redactedImage")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub redacted_image: Option<Vec<u8>>,
 }
 
@@ -4679,7 +4679,7 @@ impl client::Part for GooglePrivacyDlpV2Trigger {}
 pub struct GooglePrivacyDlpV2UnwrappedCryptoKey {
     /// Required. A 128/192/256 bit key.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub key: Option<Vec<u8>>,
 }
 

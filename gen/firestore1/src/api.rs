@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.
     CloudPlatform,
@@ -242,7 +242,7 @@ pub struct BatchGetDocumentsRequest {
     pub read_time: Option<client::chrono::DateTime<client::chrono::offset::Utc>>,
     /// Reads documents in a transaction.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub transaction: Option<Vec<u8>>,
 }
 
@@ -272,7 +272,7 @@ pub struct BatchGetDocumentsResponse {
     pub read_time: Option<client::chrono::DateTime<client::chrono::offset::Utc>>,
     /// The transaction that was started as part of this request. Will only be set in the first response, and only if BatchGetDocumentsRequest.new_transaction was set in the request.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub transaction: Option<Vec<u8>>,
 }
 
@@ -356,7 +356,7 @@ impl client::RequestValue for BeginTransactionRequest {}
 pub struct BeginTransactionResponse {
     /// The transaction that was started.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub transaction: Option<Vec<u8>>,
 }
 
@@ -396,7 +396,7 @@ impl client::Part for CollectionSelector {}
 pub struct CommitRequest {
     /// If set, applies all writes in this transaction, and commits it.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub transaction: Option<Vec<u8>>,
     /// The writes to apply. Always executed atomically and in order.
     
@@ -1525,7 +1525,7 @@ pub struct ReadWrite {
     /// An optional transaction to retry.
     #[serde(rename="retryTransaction")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub retry_transaction: Option<Vec<u8>>,
 }
 
@@ -1545,7 +1545,7 @@ impl client::Part for ReadWrite {}
 pub struct RollbackRequest {
     /// Required. The transaction to roll back.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub transaction: Option<Vec<u8>>,
 }
 
@@ -1577,7 +1577,7 @@ pub struct RunAggregationQueryRequest {
     pub structured_aggregation_query: Option<StructuredAggregationQuery>,
     /// Run the aggregation within an already active transaction. The value here is the opaque transaction ID to execute the query in.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub transaction: Option<Vec<u8>>,
 }
 
@@ -1604,7 +1604,7 @@ pub struct RunAggregationQueryResponse {
     pub result: Option<AggregationResult>,
     /// The transaction that was started as part of this request. Only present on the first response when the request requested to start a new transaction.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub transaction: Option<Vec<u8>>,
 }
 
@@ -1636,7 +1636,7 @@ pub struct RunQueryRequest {
     pub structured_query: Option<StructuredQuery>,
     /// Run the query within an already active transaction. The value here is the opaque transaction ID to execute the query in.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub transaction: Option<Vec<u8>>,
 }
 
@@ -1670,7 +1670,7 @@ pub struct RunQueryResponse {
     pub skipped_results: Option<i32>,
     /// The transaction that was started as part of this request. Can only be set in the first response, and only if RunQueryRequest.new_transaction was set in the request. If set, no other fields will be set in this response.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub transaction: Option<Vec<u8>>,
 }
 
@@ -1780,7 +1780,7 @@ pub struct Target {
     /// A resume token from a prior TargetChange for an identical target. Using a resume token with a different target is unsupported and may fail.
     #[serde(rename="resumeToken")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub resume_token: Option<Vec<u8>>,
     /// The target ID that identifies the target on the stream. Must be a positive number and non-zero.
     #[serde(rename="targetId")]
@@ -1808,7 +1808,7 @@ pub struct TargetChange {
     /// A token that can be used to resume the stream for the given `target_ids`, or all targets if `target_ids` is empty. Not set on every target change.
     #[serde(rename="resumeToken")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub resume_token: Option<Vec<u8>>,
     /// The type of change that occurred.
     #[serde(rename="targetChangeType")]
@@ -1879,7 +1879,7 @@ pub struct Value {
     /// A bytes value. Must not exceed 1 MiB - 89 bytes. Only the first 1,500 bytes are considered by queries.
     #[serde(rename="bytesValue")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub bytes_value: Option<Vec<u8>>,
     /// A double value.
     #[serde(rename="doubleValue")]
@@ -1973,7 +1973,7 @@ pub struct WriteRequest {
     /// A stream token that was previously sent by the server. The client should set this field to the token from the most recent WriteResponse it has received. This acknowledges that the client has received responses up to this token. After sending this token, earlier tokens may not be used anymore. The server may close the stream if there are too many unacknowledged responses. Leave this field unset when creating a new stream. To resume a stream at a specific point, set this field and the `stream_id` field. Leave this field unset when creating a new stream.
     #[serde(rename="streamToken")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub stream_token: Option<Vec<u8>>,
     /// The writes to apply. Always executed atomically and in order. This must be empty on the first request. This may be empty on the last request. This must not be empty on all other requests.
     
@@ -2005,7 +2005,7 @@ pub struct WriteResponse {
     /// A token that represents the position of this response in the stream. This can be used by a client to resume the stream at this point. This field is always set.
     #[serde(rename="streamToken")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub stream_token: Option<Vec<u8>>,
     /// The result of applying the writes. This i-th write result corresponds to the i-th write in the request.
     #[serde(rename="writeResults")]
@@ -6649,7 +6649,7 @@ where
         let mut params = Params::with_capacity(6 + self._additional_params.len());
         params.push("name", self._name);
         if let Some(value) = self._transaction.as_ref() {
-            params.push("transaction", ::client::serde::urlsafe_base64::to_string(&value));
+            params.push("transaction", ::client::serde::serde_base64::to_string(&value));
         }
         if let Some(value) = self._read_time.as_ref() {
             params.push("readTime", ::client::serde::datetime_to_string(&value));
@@ -6960,7 +6960,7 @@ where
         params.push("parent", self._parent);
         params.push("collectionId", self._collection_id);
         if let Some(value) = self._transaction.as_ref() {
-            params.push("transaction", ::client::serde::urlsafe_base64::to_string(&value));
+            params.push("transaction", ::client::serde::serde_base64::to_string(&value));
         }
         if let Some(value) = self._show_missing.as_ref() {
             params.push("showMissing", value.to_string());
@@ -7613,7 +7613,7 @@ where
         params.push("parent", self._parent);
         params.push("collectionId", self._collection_id);
         if let Some(value) = self._transaction.as_ref() {
-            params.push("transaction", ::client::serde::urlsafe_base64::to_string(&value));
+            params.push("transaction", ::client::serde::serde_base64::to_string(&value));
         }
         if let Some(value) = self._show_missing.as_ref() {
             params.push("showMissing", value.to_string());

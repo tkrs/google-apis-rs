@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// Manage your books
     Full,
@@ -609,7 +609,7 @@ pub struct DictionaryAnnotationdata {
     /// Base64 encoded data for this annotation data.
     #[serde(rename="encodedData")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub encoded_data: Option<Vec<u8>>,
     /// Unique id for this annotation data.
     
@@ -825,7 +825,7 @@ pub struct GeoAnnotationdata {
     /// Base64 encoded data for this annotation data.
     #[serde(rename="encodedData")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub encoded_data: Option<Vec<u8>>,
     /// Unique id for this annotation data.
     

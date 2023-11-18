@@ -136,14 +136,34 @@ pub mod duration {
     }
 }
 
-pub mod urlsafe_base64 {
+pub mod base64_serde {
     use serde::{Deserialize, Deserializer, Serializer};
     use serde_with::{DeserializeAs, SerializeAs};
+
+    #[cfg(feature = "urlsafe-base64")]
+    fn base64_encode(bytes: &Vec<u8>) -> String {
+        base64::encode_config(bytes, base64::URL_SAFE)
+    }
+
+    #[cfg(feature = "urlsafe-base64")]
+    fn base64_decode(s: &str) -> Result<Vec<u8>, base64::DecodeError> {
+        base64::decode_config(s, base64::URL_SAFE)
+    }
+
+    #[cfg(not(feature = "urlsafe-base64"))]
+    fn base64_encode(bytes: &Vec<u8>) -> String {
+        base64::encode(bytes)
+    }
+
+    #[cfg(not(feature = "urlsafe-base64"))]
+    fn base64_decode(s: &str) -> Result<Vec<u8>, base64::DecodeError> {
+        base64::decode(s)
+    }
 
     pub struct Wrapper;
 
     pub fn to_string(bytes: &Vec<u8>) -> String {
-        base64::encode_config(bytes, base64::URL_SAFE)
+        base64_encode(bytes)
     }
 
     impl SerializeAs<Vec<u8>> for Wrapper {
@@ -161,7 +181,7 @@ pub mod urlsafe_base64 {
             D: Deserializer<'de>,
         {
             let s: &str = Deserialize::deserialize(deserializer)?;
-            base64::decode_config(s, base64::URL_SAFE).map_err(serde::de::Error::custom)
+            base64_decode(s).map_err(serde::de::Error::custom)
         }
     }
 }
@@ -172,7 +192,7 @@ pub fn datetime_to_string(datetime: &chrono::DateTime<chrono::offset::Utc>) -> S
 
 #[cfg(test)]
 mod test {
-    use super::{duration, urlsafe_base64};
+    use super::{base64_serde, duration};
     use serde::{Deserialize, Serialize};
     use serde_with::{serde_as, DisplayFromStr};
 
@@ -186,7 +206,7 @@ mod test {
     #[serde_as]
     #[derive(Serialize, Deserialize, Debug, PartialEq)]
     struct Base64Wrapper {
-        #[serde_as(as = "Option<urlsafe_base64::Wrapper>")]
+        #[serde_as(as = "Option<base64_serde::Wrapper>")]
         bytes: Option<Vec<u8>>,
     }
 
@@ -257,6 +277,7 @@ mod test {
         }
     }
 
+    #[cfg(feature = "urlsafe-base64")]
     #[test]
     fn urlsafe_base64_de_success_cases() {
         let wrapper: Base64Wrapper =
@@ -264,13 +285,14 @@ mod test {
         assert_eq!(Some(b"hello world".as_slice()), wrapper.bytes.as_deref());
     }
 
+    #[cfg(feature = "urlsafe-base64")]
     #[test]
     fn urlsafe_base64_de_failure_cases() {
         assert!(serde_json::from_str::<Base64Wrapper>(r#"{"bytes": "aGVsbG8gd29ybG+Q"}"#).is_err());
     }
 
     #[test]
-    fn urlsafe_base64_roundtrip() {
+    fn serde_base64_roundtrip() {
         let wrapper = Base64Wrapper {
             bytes: Some(b"Hello world!".to_vec()),
         };

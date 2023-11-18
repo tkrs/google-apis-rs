@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.
     CloudPlatform,
@@ -310,7 +310,7 @@ impl client::ResponseResult for GoogleCloudDialogflowCxV3AgentValidationResult {
 pub struct GoogleCloudDialogflowCxV3AudioInput {
     /// The natural language speech audio to be processed. A single request can contain up to 1 minute of speech audio data. The transcribed text cannot contain more than 256 bytes. For non-streaming audio detect intent, both `config` and `audio` must be provided. For streaming audio detect intent, `config` must be provided in the first request and `audio` must be provided in all following requests.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub audio: Option<Vec<u8>>,
     /// Required. Instructs the speech recognizer how to process the speech audio.
     
@@ -721,7 +721,7 @@ pub struct GoogleCloudDialogflowCxV3DetectIntentResponse {
     /// The audio data bytes encoded as specified in the request. Note: The output audio is generated based on the values of default platform text responses found in the `query_result.response_messages` field. If multiple default text responses exist, they will be concatenated when generating audio. If no default platform text responses exist, the generated audio content will be empty. In some scenarios, multiple output audio fields may be present in the response structure. In these cases, only the top-most-level audio output has content.
     #[serde(rename="outputAudio")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub output_audio: Option<Vec<u8>>,
     /// The config used by the speech synthesizer to generate the output audio.
     #[serde(rename="outputAudioConfig")]
@@ -1451,7 +1451,7 @@ pub struct GoogleCloudDialogflowCxV3FulfillIntentResponse {
     /// The audio data bytes encoded as specified in the request. Note: The output audio is generated based on the values of default platform text responses found in the `query_result.response_messages` field. If multiple default text responses exist, they will be concatenated when generating audio. If no default platform text responses exist, the generated audio content will be empty. In some scenarios, multiple output audio fields may be present in the response structure. In these cases, only the top-most-level audio output has content.
     #[serde(rename="outputAudio")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub output_audio: Option<Vec<u8>>,
     /// The config used by the speech synthesizer to generate the output audio.
     #[serde(rename="outputAudioConfig")]
@@ -1588,7 +1588,7 @@ pub struct GoogleCloudDialogflowCxV3ImportFlowRequest {
     /// Uncompressed raw byte content for flow.
     #[serde(rename="flowContent")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub flow_content: Option<Vec<u8>>,
     /// The [Google Cloud Storage](https://cloud.google.com/storage/docs/) URI to import flow from. The format of this URI must be `gs:///`. Dialogflow performs a read operation for the Cloud Storage object on the caller's behalf, so your request authentication must have read permissions for the object. For more information, see [Dialogflow access control](https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage).
     #[serde(rename="flowUri")]
@@ -1616,7 +1616,7 @@ impl client::RequestValue for GoogleCloudDialogflowCxV3ImportFlowRequest {}
 pub struct GoogleCloudDialogflowCxV3ImportTestCasesRequest {
     /// Uncompressed raw byte content for test cases.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub content: Option<Vec<u8>>,
     /// The [Google Cloud Storage](https://cloud.google.com/storage/docs/) URI to import test cases from. The format of this URI must be `gs:///`. Dialogflow performs a read operation for the Cloud Storage object on the caller's behalf, so your request authentication must have read permissions for the object. For more information, see [Dialogflow access control](https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage).
     #[serde(rename="gcsUri")]
@@ -2753,7 +2753,7 @@ pub struct GoogleCloudDialogflowCxV3ResponseMessageMixedAudioSegment {
     pub allow_playback_interruption: Option<bool>,
     /// Raw audio synthesized from the Dialogflow agent's response using the output config specified in the request.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub audio: Option<Vec<u8>>,
     /// Client-specific URI that points to an audio clip accessible to the client. Dialogflow does not impose any validation on it.
     
@@ -2854,7 +2854,7 @@ pub struct GoogleCloudDialogflowCxV3RestoreAgentRequest {
     /// Uncompressed raw byte content for agent.
     #[serde(rename="agentContent")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub agent_content: Option<Vec<u8>>,
     /// The [Google Cloud Storage](https://cloud.google.com/storage/docs/) URI to restore agent from. The format of this URI must be `gs:///`. Dialogflow performs a read operation for the Cloud Storage object on the caller's behalf, so your request authentication must have read permissions for the object. For more information, see [Dialogflow access control](https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage).
     #[serde(rename="agentUri")]
@@ -3786,7 +3786,7 @@ pub struct GoogleCloudDialogflowCxV3WebhookGenericWebService {
     /// Optional. Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification. This overrides the default SSL trust store. If this is empty or unspecified, Dialogflow will use Google's default trust store to verify certificates. N.B. Make sure the HTTPS server certificates are signed with "subject alt name". For instance a certificate can be self-signed using the following command, ``` openssl x509 -req -days 200 -in example.com.csr \ -signkey example.com.key \ -out example.com.crt \ -extfile <(printf "\nsubjectAltName='DNS:www.example.com'") ```
     #[serde(rename="allowedCaCerts")]
     
-    #[serde_as(as = "Option<Vec<::client::serde::urlsafe_base64::Wrapper>>")]
+    #[serde_as(as = "Option<Vec<::client::serde::searde_base64::Wrapper>>")]
     pub allowed_ca_certs: Option<Vec<Vec<u8>>>,
     /// The password for HTTP Basic authentication.
     

@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// See, edit, create, and delete all of your Google Drive files
     Full,
@@ -2068,7 +2068,7 @@ impl client::Part for FileContentHints {}
 pub struct FileContentHintsThumbnail {
     /// The thumbnail data encoded with URL-safe Base64 (RFC 4648 section 5).
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub image: Option<Vec<u8>>,
     /// The MIME type of the thumbnail.
     #[serde(rename="mimeType")]

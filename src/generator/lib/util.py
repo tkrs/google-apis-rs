@@ -144,7 +144,7 @@ def preprocess(base_url, s):
         stdout=subprocess.PIPE,
         env={"URL_BASE": base_url or ""}
     )
-    
+
     res = p.communicate(s.encode('utf-8'))
     exitcode = p.wait(timeout=1)
     if exitcode != 0:
@@ -743,7 +743,7 @@ def build_all_params(c, m):
                   'description':
                       """The delegate implementation is consulted whenever there is an intermediate result, or if something goes wrong
                       while executing the actual API request.
-                      
+
                       It should be used to handle progress information, and to implement a certain level of resilience."""})
     params.append(dp)
     return params, request_value
@@ -1183,7 +1183,7 @@ def string_impl(p):
     """Returns a function which will convert instances of p to a string"""
     return {
         "google-duration": lambda x: f"::client::serde::duration::to_string(&{x})",
-        "byte": lambda x: f"::client::serde::urlsafe_base64::to_string(&{x})",
+        "byte": lambda x: f"::client::serde::serde_base64::to_string(&{x})",
         "google-datetime": lambda x: f"::client::serde::datetime_to_string(&{x})",
         "date-time": lambda x: f"::client::serde::datetime_to_string(&{x})",
         "google-fieldmask": lambda x: f"{x}.to_string()",

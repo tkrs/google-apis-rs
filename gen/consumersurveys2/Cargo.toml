@@ -33,4 +33,5 @@ url = "= 1.7"
 
 [features]
 yup-oauth2 = ["google-apis-common/yup-oauth2"]
-default = ["yup-oauth2"]
+urlsafe-base64 = ["google-apis-common/urlsafe-base64"]
+default = ["yup-oauth2", "urlsafe-base64"]

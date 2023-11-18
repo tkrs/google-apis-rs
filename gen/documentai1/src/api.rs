@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.
     CloudPlatform,
@@ -297,7 +297,7 @@ impl client::RequestValue for GoogleCloudDocumentaiV1DisableProcessorRequest {}
 pub struct GoogleCloudDocumentaiV1Document {
     /// Optional. Inline document content, represented as a stream of bytes. Note: As with all `bytes` fields, protobuffers use a pure binary representation, whereas JSON representations use base64.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub content: Option<Vec<u8>>,
     /// A list of entities detected on Document.text. For document shards, entities in this list may cross shard boundaries.
     
@@ -767,7 +767,7 @@ impl client::Part for GoogleCloudDocumentaiV1DocumentPageFormField {}
 pub struct GoogleCloudDocumentaiV1DocumentPageImage {
     /// Raw byte content of the image.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub content: Option<Vec<u8>>,
     /// Height of the image in pixels.
     
@@ -883,7 +883,7 @@ pub struct GoogleCloudDocumentaiV1DocumentPageMatrix {
     pub cols: Option<i32>,
     /// The matrix data.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub data: Option<Vec<u8>>,
     /// Number of rows in the matrix.
     
@@ -2146,7 +2146,7 @@ impl client::Part for GoogleCloudDocumentaiV1ProcessorVersionDeprecationInfo {}
 pub struct GoogleCloudDocumentaiV1RawDocument {
     /// Inline document content.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub content: Option<Vec<u8>>,
     /// An IANA MIME type (RFC6838) indicating the nature and format of the content.
     #[serde(rename="mimeType")]

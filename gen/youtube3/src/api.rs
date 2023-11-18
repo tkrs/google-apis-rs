@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// Manage your YouTube account
     Full,
@@ -2854,7 +2854,7 @@ pub struct InvideoBranding {
     /// The bytes the uploaded image. Only used in api to youtube communication.
     #[serde(rename="imageBytes")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub image_bytes: Option<Vec<u8>>,
     /// The url of the uploaded image. Only used in apiary to api communication.
     #[serde(rename="imageUrl")]
@@ -3068,7 +3068,7 @@ pub struct LiveBroadcastContentDetails {
     pub latency_preference: Option<String>,
     /// The mesh for projecting the video if projection is mesh. The mesh value must be a UTF-8 string containing the base-64 encoding of 3D mesh data that follows the Spherical Video V2 RFC specification for an mshp box, excluding the box size and type but including the following four reserved zero bytes for the version and flags.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub mesh: Option<Vec<u8>>,
     /// The monitorStream object contains information about the monitor stream, which the broadcaster can use to review the event content before the broadcast stream is shown publicly.
     #[serde(rename="monitorStream")]

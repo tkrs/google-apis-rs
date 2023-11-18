@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// Private Service: https://www.googleapis.com/auth/wallet_object.issuer
     WalletObjectIssuer,
@@ -469,7 +469,7 @@ pub struct Blobstore2Info {
     /// Read handle passed from Bigstore -> Scotty for a GCS download. This is a signed, serialized blobstore2.ReadHandle proto which must never be set outside of Bigstore, and is not applicable to non-GCS media downloads.
     #[serde(rename="downloadReadHandle")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub download_read_handle: Option<Vec<u8>>,
     /// The blob read token. Needed to read blobs that have not been replicated. Might not be available until the final call.
     #[serde(rename="readToken")]
@@ -478,7 +478,7 @@ pub struct Blobstore2Info {
     /// Metadata passed from Blobstore -> Scotty for a new GCS upload. This is a signed, serialized blobstore2.BlobMetadataContainer proto which must never be consumed outside of Bigstore, and is not applicable to non-GCS media uploads.
     #[serde(rename="uploadMetadataContainer")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub upload_metadata_container: Option<Vec<u8>>,
 }
 
@@ -735,7 +735,7 @@ pub struct CompositeMedia {
     /// Blobstore v1 reference, set if reference_type is BLOBSTORE_REF This should be the byte representation of a blobstore.BlobRef. Since Blobstore is deprecating v1, use blobstore2_info instead. For now, any v2 blob will also be represented in this field as v1 BlobRef.
     #[serde(rename="blobRef")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub blob_ref: Option<Vec<u8>>,
     /// Blobstore v2 info, set if reference_type is BLOBSTORE_REF and it refers to a v2 blob.
     #[serde(rename="blobstore2Info")]
@@ -744,7 +744,7 @@ pub struct CompositeMedia {
     /// A binary data reference for a media download. Serves as a technology-agnostic binary reference in some Google infrastructure. This value is a serialized storage_cosmo.BinaryReference proto. Storing it as bytes is a hack to get around the fact that the cosmo proto (as well as others it includes) doesn't support JavaScript. This prevents us from including the actual type of this field.
     #[serde(rename="cosmoBinaryReference")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub cosmo_binary_reference: Option<Vec<u8>>,
     /// crc32.c hash for the payload.
     #[serde(rename="crc32cHash")]
@@ -752,7 +752,7 @@ pub struct CompositeMedia {
     pub crc32c_hash: Option<u32>,
     /// Media data, set if reference_type is INLINE
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub inline: Option<Vec<u8>>,
     /// Size of the data, in bytes
     
@@ -761,7 +761,7 @@ pub struct CompositeMedia {
     /// MD5 hash for the payload.
     #[serde(rename="md5Hash")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub md5_hash: Option<Vec<u8>>,
     /// Reference to a TI Blob, set if reference_type is BIGSTORE_REF.
     #[serde(rename="objectId")]
@@ -777,7 +777,7 @@ pub struct CompositeMedia {
     /// SHA-1 hash for the payload.
     #[serde(rename="sha1Hash")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub sha1_hash: Option<Vec<u8>>,
 }
 
@@ -3498,12 +3498,12 @@ pub struct Media {
     /// Use object_id instead.
     #[serde(rename="bigstoreObjectRef")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub bigstore_object_ref: Option<Vec<u8>>,
     /// Blobstore v1 reference, set if reference_type is BLOBSTORE_REF This should be the byte representation of a blobstore.BlobRef. Since Blobstore is deprecating v1, use blobstore2_info instead. For now, any v2 blob will also be represented in this field as v1 BlobRef.
     #[serde(rename="blobRef")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub blob_ref: Option<Vec<u8>>,
     /// Blobstore v2 info, set if reference_type is BLOBSTORE_REF and it refers to a v2 blob.
     #[serde(rename="blobstore2Info")]
@@ -3524,7 +3524,7 @@ pub struct Media {
     /// A binary data reference for a media download. Serves as a technology-agnostic binary reference in some Google infrastructure. This value is a serialized storage_cosmo.BinaryReference proto. Storing it as bytes is a hack to get around the fact that the cosmo proto (as well as others it includes) doesn't support JavaScript. This prevents us from including the actual type of this field.
     #[serde(rename="cosmoBinaryReference")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub cosmo_binary_reference: Option<Vec<u8>>,
     /// For Scotty Uploads: Scotty-provided hashes for uploads For Scotty Downloads: (WARNING: DO NOT USE WITHOUT PERMISSION FROM THE SCOTTY TEAM.) A Hash provided by the agent to be used to verify the data being downloaded. Currently only supported for inline payloads. Further, only crc32c_hash is currently supported.
     #[serde(rename="crc32cHash")]
@@ -3566,7 +3566,7 @@ pub struct Media {
     pub hash_verified: Option<bool>,
     /// Media data, set if reference_type is INLINE
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub inline: Option<Vec<u8>>,
     /// |is_potential_retry| is set false only when Scotty is certain that it has not sent the request before. When a client resumes an upload, this field must be set true in agent calls, because Scotty cannot be certain that it has never sent the request before due to potential failure in the session state persistence.
     #[serde(rename="isPotentialRetry")]
@@ -3579,12 +3579,12 @@ pub struct Media {
     /// Scotty-provided MD5 hash for an upload.
     #[serde(rename="md5Hash")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub md5_hash: Option<Vec<u8>>,
     /// Media id to forward to the operation GetMedia. Can be set if reference_type is GET_MEDIA.
     #[serde(rename="mediaId")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub media_id: Option<Vec<u8>>,
     /// Reference to a TI Blob, set if reference_type is BIGSTORE_REF.
     #[serde(rename="objectId")]
@@ -3600,12 +3600,12 @@ pub struct Media {
     /// Scotty-provided SHA1 hash for an upload.
     #[serde(rename="sha1Hash")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub sha1_hash: Option<Vec<u8>>,
     /// Scotty-provided SHA256 hash for an upload.
     #[serde(rename="sha256Hash")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub sha256_hash: Option<Vec<u8>>,
     /// Time at which the media data was last updated, in milliseconds since UNIX epoch
     

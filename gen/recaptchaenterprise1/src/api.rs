@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.
     CloudPlatform,
@@ -243,7 +243,7 @@ pub struct GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest {
     /// Optional. Unique stable hashed user identifier to apply to the assessment. This is an alternative to setting the hashed_account_id in CreateAssessment, for example when the account identifier is not yet known in the initial request. It is recommended that the identifier is hashed using hmac-sha256 with stable secret.
     #[serde(rename="hashedAccountId")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub hashed_account_id: Option<Vec<u8>>,
     /// Optional. Optional reasons for the annotation that will be assigned to the Event.
     
@@ -385,7 +385,7 @@ pub struct GoogleCloudRecaptchaenterpriseV1Event {
     /// Optional. Unique stable hashed user identifier for the request. The identifier must be hashed using hmac-sha256 with stable secret.
     #[serde(rename="hashedAccountId")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub hashed_account_id: Option<Vec<u8>>,
     /// Optional. The site key that was used to invoke reCAPTCHA on your site and generate the token.
     #[serde(rename="siteKey")]
@@ -613,22 +613,22 @@ pub struct GoogleCloudRecaptchaenterpriseV1PrivatePasswordLeakVerification {
     /// Output only. List of prefixes of the encrypted potential password leaks that matched the given parameters. They must be compared with the client-side decryption prefix of `reencrypted_user_credentials_hash`
     #[serde(rename="encryptedLeakMatchPrefixes")]
     
-    #[serde_as(as = "Option<Vec<::client::serde::urlsafe_base64::Wrapper>>")]
+    #[serde_as(as = "Option<Vec<::client::serde::searde_base64::Wrapper>>")]
     pub encrypted_leak_match_prefixes: Option<Vec<Vec<u8>>>,
     /// Optional. Encrypted Scrypt hash of the canonicalized username+password. It is re-encrypted by the server and returned through `reencrypted_user_credentials_hash`.
     #[serde(rename="encryptedUserCredentialsHash")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub encrypted_user_credentials_hash: Option<Vec<u8>>,
     /// Optional. Exactly 26-bit prefix of the SHA-256 hash of the canonicalized username. It is used to look up password leaks associated with that hash prefix.
     #[serde(rename="lookupHashPrefix")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub lookup_hash_prefix: Option<Vec<u8>>,
     /// Output only. Corresponds to the re-encryption of the `encrypted_user_credentials_hash` field. It is used to match potential password leaks within `encrypted_leak_match_prefixes`.
     #[serde(rename="reencryptedUserCredentialsHash")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub reencrypted_user_credentials_hash: Option<Vec<u8>>,
 }
 
@@ -660,7 +660,7 @@ pub struct GoogleCloudRecaptchaenterpriseV1RelatedAccountGroupMembership {
     /// The unique stable hashed user identifier of the member. The identifier corresponds to a `hashed_account_id` provided in a previous `CreateAssessment` or `AnnotateAssessment` call.
     #[serde(rename="hashedAccountId")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub hashed_account_id: Option<Vec<u8>>,
     /// Required. The resource name for this membership in the format `projects/{project}/relatedaccountgroups/{relatedaccountgroup}/memberships/{membership}`.
     
@@ -759,7 +759,7 @@ pub struct GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsR
     /// Optional. The unique stable hashed user identifier we should search connections to. The identifier should correspond to a `hashed_account_id` provided in a previous `CreateAssessment` or `AnnotateAssessment` call.
     #[serde(rename="hashedAccountId")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub hashed_account_id: Option<Vec<u8>>,
     /// Optional. The maximum number of groups to return. The service might return fewer than this value. If unspecified, at most 50 groups are returned. The maximum value is 1000; values above 1000 are coerced to 1000.
     #[serde(rename="pageSize")]

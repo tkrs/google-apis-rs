@@ -60,5 +60,6 @@ version = "${util.crate_version()}"
 % if not cargo.get("is_executable", False):
 [features]
 yup-oauth2 = ["google-apis-common/yup-oauth2"]
-default = ["yup-oauth2"]
+urlsafe-base64 = ["google-apis-common/urlsafe-base64"]
+default = ["yup-oauth2", "urlsafe-base64"]
 % endif

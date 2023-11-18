@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.
     CloudPlatform,
@@ -193,7 +193,7 @@ pub struct GoogleCloudWebriskV1ComputeThreatListDiffResponse {
     /// The new opaque client version token. This should be retained by the client and passed into the next call of ComputeThreatListDiff as 'version_token'. A separate version token should be stored and used for each threatList.
     #[serde(rename="newVersionToken")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub new_version_token: Option<Vec<u8>>,
     /// The soonest the client should wait before issuing any diff request. Querying sooner is unlikely to produce a meaningful diff. Waiting longer is acceptable considering the use case. If this field is not set clients may update as soon as they want.
     #[serde(rename="recommendedNextDiff")]
@@ -220,7 +220,7 @@ impl client::ResponseResult for GoogleCloudWebriskV1ComputeThreatListDiffRespons
 pub struct GoogleCloudWebriskV1ComputeThreatListDiffResponseChecksum {
     /// The SHA256 hash of the client state; that is, of the sorted list of all hashes present in the database.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub sha256: Option<Vec<u8>>,
 }
 
@@ -241,7 +241,7 @@ pub struct GoogleCloudWebriskV1RawHashes {
     /// The hashes, in binary format, concatenated into one long string. Hashes are sorted in lexicographic order. For JSON API users, hashes are base64-encoded.
     #[serde(rename="rawHashes")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub raw_hashes: Option<Vec<u8>>,
 }
 
@@ -273,7 +273,7 @@ pub struct GoogleCloudWebriskV1RiceDeltaEncoding {
     /// The encoded deltas that are encoded using the Golomb-Rice coder.
     #[serde(rename="encodedData")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub encoded_data: Option<Vec<u8>>,
     /// The number of entries that are delta encoded in the encoded data. If only a single integer was encoded, this will be zero and the single value will be stored in `first_value`.
     #[serde(rename="entryCount")]
@@ -329,7 +329,7 @@ pub struct GoogleCloudWebriskV1SearchHashesResponseThreatHash {
     pub expire_time: Option<client::chrono::DateTime<client::chrono::offset::Utc>>,
     /// A 32 byte SHA256 hash. This field is in binary format. For JSON requests, hashes are base64-encoded.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub hash: Option<Vec<u8>>,
     /// The ThreatList this threat belongs to. This must contain at least one entry.
     #[serde(rename="threatTypes")]
@@ -977,7 +977,7 @@ where
             }
         }
         if let Some(value) = self._hash_prefix.as_ref() {
-            params.push("hashPrefix", ::client::serde::urlsafe_base64::to_string(&value));
+            params.push("hashPrefix", ::client::serde::serde_base64::to_string(&value));
         }
 
         params.extend(self._additional_params.iter());
@@ -2811,7 +2811,7 @@ where
 
         let mut params = Params::with_capacity(7 + self._additional_params.len());
         if let Some(value) = self._version_token.as_ref() {
-            params.push("versionToken", ::client::serde::urlsafe_base64::to_string(&value));
+            params.push("versionToken", ::client::serde::serde_base64::to_string(&value));
         }
         if let Some(value) = self._threat_type.as_ref() {
             params.push("threatType", value);

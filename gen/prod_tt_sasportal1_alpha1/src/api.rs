@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// Read, create, update, and delete your SAS Portal data.
     Sasportal,
@@ -233,7 +233,7 @@ pub struct SasPortalCreateSignedDeviceRequest {
     /// Required. JSON Web Token signed using a CPI private key. Payload must be the JSON encoding of the device. The user_id field must be set.
     #[serde(rename="encodedDevice")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub encoded_device: Option<Vec<u8>>,
     /// Required. Unique installer id (CPI ID) from the Certified Professional Installers database.
     #[serde(rename="installerId")]
@@ -1040,7 +1040,7 @@ pub struct SasPortalPolicy {
     pub assignments: Option<Vec<SasPortalAssignment>>,
     /// The etag is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the etag in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An etag is returned in the response to GetPolicy, and systems are expected to put that etag in the request to SetPolicy to ensure that their change will be applied to the same version of the policy. If no etag is provided in the call to GetPolicy, then the existing policy is overwritten blindly.
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub etag: Option<Vec<u8>>,
 }
 
@@ -1172,7 +1172,7 @@ pub struct SasPortalUpdateSignedDeviceRequest {
     /// Required. The JSON Web Token signed using a CPI private key. Payload must be the JSON encoding of the device. The user_id field must be set.
     #[serde(rename="encodedDevice")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub encoded_device: Option<Vec<u8>>,
     /// Required. Unique installer ID (CPI ID) from the Certified Professional Installers database.
     #[serde(rename="installerId")]

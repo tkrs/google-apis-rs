@@ -23,7 +23,7 @@ use crate::{client, client::GetToken, client::serde_with};
 /// Identifies the an OAuth2 authorization scope.
 /// A scope is needed when requesting an
 /// [authorization token](https://developers.google.com/youtube/v3/guides/authentication).
-#[derive(PartialEq, Eq, Hash)]
+#[derive(PartialEq, Eq, Ord, PartialOrd, Hash, Debug, Clone, Copy)]
 pub enum Scope {
     /// See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.
     CloudPlatform,
@@ -252,7 +252,7 @@ pub struct Blobstore2Info {
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="downloadReadHandle")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub download_read_handle: Option<Vec<u8>>,
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="readToken")]
@@ -261,7 +261,7 @@ pub struct Blobstore2Info {
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="uploadMetadataContainer")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub upload_metadata_container: Option<Vec<u8>>,
 }
 
@@ -429,7 +429,7 @@ pub struct CompositeMedia {
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="blobRef")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub blob_ref: Option<Vec<u8>>,
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="blobstore2Info")]
@@ -438,7 +438,7 @@ pub struct CompositeMedia {
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="cosmoBinaryReference")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub cosmo_binary_reference: Option<Vec<u8>>,
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="crc32cHash")]
@@ -446,7 +446,7 @@ pub struct CompositeMedia {
     pub crc32c_hash: Option<u32>,
     /// # gdata.* are outside protos with mising documentation
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub inline: Option<Vec<u8>>,
     /// # gdata.* are outside protos with mising documentation
     
@@ -455,7 +455,7 @@ pub struct CompositeMedia {
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="md5Hash")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub md5_hash: Option<Vec<u8>>,
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="objectId")]
@@ -471,7 +471,7 @@ pub struct CompositeMedia {
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="sha1Hash")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub sha1_hash: Option<Vec<u8>>,
 }
 
@@ -788,12 +788,12 @@ pub struct Media {
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="bigstoreObjectRef")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub bigstore_object_ref: Option<Vec<u8>>,
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="blobRef")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub blob_ref: Option<Vec<u8>>,
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="blobstore2Info")]
@@ -814,7 +814,7 @@ pub struct Media {
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="cosmoBinaryReference")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub cosmo_binary_reference: Option<Vec<u8>>,
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="crc32cHash")]
@@ -856,7 +856,7 @@ pub struct Media {
     pub hash_verified: Option<bool>,
     /// # gdata.* are outside protos with mising documentation
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub inline: Option<Vec<u8>>,
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="isPotentialRetry")]
@@ -869,12 +869,12 @@ pub struct Media {
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="md5Hash")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub md5_hash: Option<Vec<u8>>,
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="mediaId")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub media_id: Option<Vec<u8>>,
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="objectId")]
@@ -890,12 +890,12 @@ pub struct Media {
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="sha1Hash")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub sha1_hash: Option<Vec<u8>>,
     /// # gdata.* are outside protos with mising documentation
     #[serde(rename="sha256Hash")]
     
-    #[serde_as(as = "Option<::client::serde::urlsafe_base64::Wrapper>")]
+    #[serde_as(as = "Option<::client::serde::searde_base64::Wrapper>")]
     pub sha256_hash: Option<Vec<u8>>,
     /// # gdata.* are outside protos with mising documentation
     
